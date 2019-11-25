@@ -10,7 +10,9 @@
   "license": "MIT",
   "scripts": {
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
-    "typecheck": "tsc --noEmit --skipLibCheck"
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "build": "rm -rf dist && microbundle",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/chai": "^4.2.5",

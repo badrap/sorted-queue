@@ -9,21 +9,22 @@ export default class SortedQueue<T> {
     this._array = [];
   }
 
-  push(value: T): void {
-    const item = new Item(value, this, this._array.length);
-    const index = this._array.push(item);
-    siftUp(
-      (this._array as unknown) as InternalItem<T>[],
-      (item as unknown) as InternalItem<T>,
-      this._cmp
+  push(value: T): SortedQueueItem<T> {
+    const item = new Item(
+      value,
+      (this as unknown) as InternalQueue<T>,
+      this._array.length
     );
+    const index = this._array.push(item);
+    siftUp(this._array, item, this._cmp);
+    return item;
   }
 
-  peek(): Item<T> | undefined {
+  peek(): SortedQueueItem<T> | undefined {
     return this._array.length > 0 ? this._array[0] : undefined;
   }
 
-  pop(): Item<T> | undefined {
+  pop(): SortedQueueItem<T> | undefined {
     const item = this.peek();
     if (!item) {
       return item;
@@ -33,19 +34,19 @@ export default class SortedQueue<T> {
   }
 }
 
-interface InternalSortedQueue<T> {
+interface InternalQueue<T> {
   _cmp: Cmp<T>;
   _array: Array<Item<T>>;
 }
 
 class Item<T> {
   readonly value: T;
-  private _queue: InternalSortedQueue<T> | null;
-  private _index: number;
+  _queue: InternalQueue<T> | null;
+  _index: number;
 
-  constructor(value: T, queue: SortedQueue<T>, index: number) {
+  constructor(value: T, queue: InternalQueue<T>, index: number) {
     this.value = value;
-    this._queue = (queue as unknown) as InternalSortedQueue<T>;
+    this._queue = queue;
     this._index = index;
   }
 
@@ -58,22 +59,20 @@ class Item<T> {
     if (last && last !== this) {
       last._index = this._index;
       queue._array[this._index] = last;
-      siftDown(
-        (queue._array as unknown) as InternalItem<T>[],
-        (last as unknown) as InternalItem<T>,
-        queue._cmp
-      );
+      siftDown(queue._array, last, queue._cmp);
     }
     this._queue = null;
     return true;
   }
 }
 
-interface InternalItem<T> {
+declare class _SortedQueueItem<T> {
+  private constructor();
   readonly value: T;
-  _queue: InternalSortedQueue<T> | null;
-  _index: number;
+  pop(): boolean;
 }
+export const SortedQueueItem = (Item as unknown) as typeof _SortedQueueItem;
+export type SortedQueueItem<T> = _SortedQueueItem<T>;
 
 function defaultCmp(a: unknown, b: unknown): number {
   if (a === b) {
@@ -85,11 +84,7 @@ function defaultCmp(a: unknown, b: unknown): number {
   return (b as any) < (a as any) || b !== b ? 1 : -1;
 }
 
-function swap<T>(
-  array: InternalItem<T>[],
-  left: InternalItem<T>,
-  right: InternalItem<T>
-): void {
+function swap<T>(array: Item<T>[], left: Item<T>, right: Item<T>): void {
   const li = left._index;
   const ri = right._index;
   array[li] = right;
@@ -98,11 +93,7 @@ function swap<T>(
   right._index = li;
 }
 
-function siftUp<T>(
-  array: InternalItem<T>[],
-  item: InternalItem<T>,
-  cmp: Cmp<T>
-): void {
+function siftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   while (item._index > 0) {
     // ECMA-262, 7ᵗʰ Edition / June 2016:
     // "Every Array object has a length property whose value is always a nonnegative integer less than 2**32."
@@ -114,11 +105,7 @@ function siftUp<T>(
   }
 }
 
-function siftDown<T>(
-  array: InternalItem<T>[],
-  item: InternalItem<T>,
-  cmp: Cmp<T>
-): void {
+function siftDown<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   for (;;) {
     const left = item._index * 2 + 1;
     const right = left + 1;
