@@ -2,6 +2,12 @@
 
 A sorted queue, based on an array-backed binary heap.
 
+## Installation
+
+```sh
+$ npm install --save sorted-queue
+```
+
 ## Usage
 
 ```ts
