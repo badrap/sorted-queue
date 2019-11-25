@@ -11,7 +11,7 @@ $ npm install --save sorted-queue
 ## Usage
 
 ```ts
-import SortedQueue from "../index";
+import { SortedQueue } from "sorted-queue";
 
 const queue = new SortedQueue();
 

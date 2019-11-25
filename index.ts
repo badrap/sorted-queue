@@ -1,6 +1,6 @@
 type Cmp<T> = (a: T, b: T) => number;
 
-export default class SortedQueue<T> {
+export class SortedQueue<T> {
   private _cmp: Cmp<T>;
   private _array: Array<Item<T>>;
 

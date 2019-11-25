@@ -1,4 +1,4 @@
-import SortedQueue, { SortedQueueItem } from "../index";
+import { SortedQueue, SortedQueueItem } from "../index";
 import { expect } from "chai";
 
 describe("SortedQueue", () => {
