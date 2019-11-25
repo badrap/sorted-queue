@@ -97,7 +97,7 @@ function siftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   while (item._index > 0) {
     // ECMA-262, 7ᵗʰ Edition / June 2016:
     // "Every Array object has a length property whose value is always a nonnegative integer less than 2**32."
-    const parent = array[(item._index / 2) >>> 0];
+    const parent = array[(item._index - 1) >>> 1];
     if (cmp(parent.value, item.value) <= 0) {
       return;
     }
@@ -109,10 +109,15 @@ function siftDown<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   for (;;) {
     const left = item._index * 2 + 1;
     const right = left + 1;
-    if (right < array.length && cmp(array[right].value, item.value) <= 0) {
-      swap(array, array[right], item);
-    } else if (left < array.length && cmp(array[left].value, item.value) <= 0) {
-      swap(array, array[left], item);
+    if (left >= array.length) {
+      return;
+    }
+    let child = array[left];
+    if (right < array.length && cmp(array[right].value, child.value) < 0) {
+      child = array[right];
+    }
+    if (cmp(child.value, item.value) <= 0) {
+      swap(array, child, item);
     } else {
       return;
     }

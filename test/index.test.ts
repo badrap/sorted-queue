@@ -61,6 +61,26 @@ describe("SortedQueue", () => {
       expect(q.pop()).to.be.undefined;
     });
   });
+
+  it("should preserve order", () => {
+    const SIZE = 1024;
+
+    const array = [];
+    for (let i = 0; i < SIZE; i++) {
+      array.push(i);
+    }
+
+    const queue = new SortedQueue();
+    while (array.length > 0) {
+      const index = (Math.random() * array.length) | 0;
+      queue.push(array[index]);
+      array.splice(index, 1);
+    }
+
+    for (let i = 0; i < SIZE; i++) {
+      expect(queue.pop()).to.have.property("value", i);
+    }
+  });
 });
 
 describe("SortedQueueItem", () => {
