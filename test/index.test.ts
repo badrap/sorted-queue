@@ -1,8 +1,20 @@
 import { SortedQueue, SortedQueueItem } from "../index";
 import { expect } from "chai";
 
+function collect<T>(queue: SortedQueue<T>): T[] {
+  const array: T[] = [];
+  for (;;) {
+    const item = queue.pop();
+    if (!item) {
+      break;
+    }
+    array.push(item.value);
+  }
+  return array;
+}
+
 describe("SortedQueue", () => {
-  describe("constructor()", () => {
+  describe("constructor(cmp?)", () => {
     it("should support custom comparison functions", () => {
       const q = new SortedQueue((a: number, b: number) => b - a);
       q.push(-1);
@@ -14,7 +26,7 @@ describe("SortedQueue", () => {
     });
   });
 
-  describe("#push()", () => {
+  describe("#push(value)", () => {
     it("should return an item with property 'value' set to the given value", () => {
       const q = new SortedQueue();
       const i = q.push(1);
@@ -63,28 +75,25 @@ describe("SortedQueue", () => {
   });
 
   it("should preserve order", () => {
-    const SIZE = 1024;
-
-    const array = [];
-    for (let i = 0; i < SIZE; i++) {
-      array.push(i);
+    const original = [];
+    for (let i = 0; i < 1024; i++) {
+      original.push(i);
     }
 
+    const copy = original.slice();
     const queue = new SortedQueue();
-    while (array.length > 0) {
-      const index = (Math.random() * array.length) | 0;
-      queue.push(array[index]);
-      array.splice(index, 1);
+    while (copy.length > 0) {
+      const index = (Math.random() * copy.length) | 0;
+      queue.push(copy[index]);
+      copy.splice(index, 1);
     }
 
-    for (let i = 0; i < SIZE; i++) {
-      expect(queue.pop()).to.have.property("value", i);
-    }
+    expect(collect(queue)).to.deep.equal(original);
   });
 });
 
 describe("SortedQueueItem", () => {
-  describe("#pop", () => {
+  describe("#pop()", () => {
     it("should return true when the item existed in the queue", () => {
       const q = new SortedQueue();
       const i = q.push(1);
@@ -108,16 +117,6 @@ describe("SortedQueueItem", () => {
       expect(q.pop()).to.have.property("value", 2);
     });
 
-    it("should remove items from the middle of the queue and still keep the queue ordered", () => {
-      const q = new SortedQueue();
-      const i = q.push(1);
-      q.push(0);
-      q.push(2);
-      i.pop();
-      expect(q.pop()).to.have.property("value", 0);
-      expect(q.pop()).to.have.property("value", 2);
-    });
-
     it("should remove items from the end of the queue and still keep the queue ordered", () => {
       const q = new SortedQueue();
       q.push(1);
@@ -126,6 +125,26 @@ describe("SortedQueueItem", () => {
       i.pop();
       expect(q.pop()).to.have.property("value", 0);
       expect(q.pop()).to.have.property("value", 1);
+    });
+
+    it("should keep ordering when the replacement item needs to be sifted up", () => {
+      // Manufacture a situation where the replacement item popped
+      // from the end of the backing array needs to be sifted up.
+      const queue = new SortedQueue();
+      const values = [0, 1000, 1, 1001, 1002, 2, 3, 1003, 1004, 1005, 1006, 4];
+      const items = values.map(v => queue.push(v));
+      items[3].pop();
+      values.splice(3, 1);
+      expect(collect(queue)).to.deep.equal(values.sort((a, b) => a - b));
+    });
+
+    it("should keep ordering when the replacement needs to be sifted down", () => {
+      const queue = new SortedQueue();
+      const values = [0, 1000, 1, 1001, 1002, 2, 3, 1003, 1004, 1005, 1006];
+      const items = values.map(v => queue.push(v));
+      items[2].pop();
+      values.splice(2, 1);
+      expect(collect(queue)).to.deep.equal(values.sort((a, b) => a - b));
     });
   });
 });

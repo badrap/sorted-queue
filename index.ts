@@ -59,6 +59,7 @@ class Item<T> {
     if (last && last !== this) {
       last._index = this._index;
       queue._array[this._index] = last;
+      siftUp(queue._array, last, queue._cmp);
       siftDown(queue._array, last, queue._cmp);
     }
     this._queue = null;
@@ -108,14 +109,14 @@ function siftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
 function siftDown<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   for (;;) {
     const left = item._index * 2 + 1;
-    const right = left + 1;
     if (left >= array.length) {
       return;
     }
-    let child = array[left];
-    if (right < array.length && cmp(array[right].value, child.value) < 0) {
-      child = array[right];
-    }
+    const right = left + 1;
+    const child =
+      right < array.length && cmp(array[right].value, array[left].value) < 0
+        ? array[right]
+        : array[left];
     if (cmp(child.value, item.value) <= 0) {
       swap(array, child, item);
     } else {
