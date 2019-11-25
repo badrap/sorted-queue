@@ -1,0 +1,31 @@
+{
+  "name": "sorted-queue",
+  "version": "0.1.0",
+  "description": "A sorted queue, based on an array-backed binary heap",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "source": "index.ts",
+  "repository": "jviide/sorted-queue",
+  "author": "Joachim Viide <jviide@iki.fi>",
+  "license": "MIT",
+  "scripts": {
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
+    "typecheck": "tsc --noEmit --skipLibCheck"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.5",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "eslint": "^6.7.1",
+    "microbundle": "^0.11.0",
+    "mocha": "^6.2.2",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "typescript",
+    "sorted-queue",
+    "priority-queue"
+  ]
+}

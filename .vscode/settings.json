@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    ".rts2_cache_*": true,
+    "dist/": true,
+    "node_modules/": true
+  }
+}
