@@ -2,7 +2,7 @@ type Cmp<T> = (a: T, b: T) => number;
 
 export class SortedQueue<T> {
   private _cmp: Cmp<T>;
-  private _array: Array<Item<T>>;
+  private _array: Item<T>[];
 
   constructor(cmp: Cmp<T> = defaultCmp) {
     this._cmp = cmp;
@@ -10,11 +10,7 @@ export class SortedQueue<T> {
   }
 
   push(value: T): SortedQueueItem<T> {
-    const item = new Item(
-      value,
-      (this as unknown) as InternalQueue<T>,
-      this._array.length
-    );
+    const item = new Item(value, this._array, this._array.length, this._cmp);
     const index = this._array.push(item);
     siftUp(this._array, item, this._cmp);
     return item;
@@ -34,35 +30,32 @@ export class SortedQueue<T> {
   }
 }
 
-interface InternalQueue<T> {
-  _cmp: Cmp<T>;
-  _array: Array<Item<T>>;
-}
-
 class Item<T> {
   readonly value: T;
-  _queue: InternalQueue<T> | null;
+  _array: Item<T>[] | null;
   _index: number;
+  _cmp: Cmp<T>;
 
-  constructor(value: T, queue: InternalQueue<T>, index: number) {
+  constructor(value: T, array: Item<T>[], index: number, cmp: Cmp<T>) {
     this.value = value;
-    this._queue = queue;
+    this._array = array;
     this._index = index;
+    this._cmp = cmp;
   }
 
   pop(): boolean {
-    const queue = this._queue;
-    if (!queue) {
+    const array = this._array;
+    if (!array) {
       return false;
     }
-    const last = queue._array.pop();
+    const last = array.pop();
     if (last && last !== this) {
       last._index = this._index;
-      queue._array[this._index] = last;
-      siftUp(queue._array, last, queue._cmp);
-      siftDown(queue._array, last, queue._cmp);
+      array[this._index] = last;
+      siftUp(array, last, this._cmp);
+      siftDown(array, last, this._cmp);
     }
-    this._queue = null;
+    this._array = null;
     return true;
   }
 }
@@ -96,8 +89,12 @@ function swap<T>(array: Item<T>[], left: Item<T>, right: Item<T>): void {
 
 function siftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   while (item._index > 0) {
+    // `item._index - 1` is cast to uint32 in by the `>>> 1`, which could make
+    // the value wrap around if `item._index` were larger than `2**32`.
+    // But `item._index` is initialized from `Array#length` and according to
     // ECMA-262, 7ᵗʰ Edition / June 2016:
-    // "Every Array object has a length property whose value is always a nonnegative integer less than 2**32."
+    //   "Every Array object has a length property whose value is always a
+    //    nonnegative integer less than 2**32."
     const parent = array[(item._index - 1) >>> 1];
     if (cmp(parent.value, item.value) <= 0) {
       return;
@@ -117,10 +114,9 @@ function siftDown<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
       right < array.length && cmp(array[right].value, array[left].value) < 0
         ? array[right]
         : array[left];
-    if (cmp(child.value, item.value) <= 0) {
-      swap(array, child, item);
-    } else {
+    if (cmp(child.value, item.value) > 0) {
       return;
     }
+    swap(array, child, item);
   }
 }
