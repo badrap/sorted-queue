@@ -1,4 +1,4 @@
-# sorted-queue
+# sorted-queue [![npm](https://img.shields.io/npm/v/sorted-queue.svg)](https://www.npmjs.com/package/sorted-queue)
 
 A sorted queue, based on an array-backed binary heap.
 
