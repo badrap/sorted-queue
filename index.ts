@@ -11,7 +11,7 @@ export class SortedQueue<T> {
 
   push(value: T): SortedQueueItem<T> {
     const item = new Item(value, this._array, this._array.length, this._cmp);
-    const index = this._array.push(item);
+    this._array.push(item);
     siftUp(this._array, item, this._cmp);
     return item;
   }
