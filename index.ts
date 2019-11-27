@@ -12,7 +12,7 @@ export class SortedQueue<T> {
   push(value: T): SortedQueueItem<T> {
     const item = new Item(value, this._array, this._array.length, this._cmp);
     this._array.push(item);
-    shiftUp(this._array, item, this._cmp);
+    siftUp(this._array, item, this._cmp);
     return item;
   }
 
@@ -52,8 +52,8 @@ class Item<T> {
     if (last && last !== this) {
       last._index = this._index;
       array[this._index] = last;
-      shiftUp(array, last, this._cmp);
-      shiftDown(array, last, this._cmp);
+      siftUp(array, last, this._cmp);
+      siftDown(array, last, this._cmp);
     }
     this._array = null;
     return true;
@@ -87,7 +87,7 @@ function swap<T>(array: Item<T>[], left: Item<T>, right: Item<T>): void {
   right._index = li;
 }
 
-function shiftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
+function siftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   while (item._index > 0) {
     // `item._index - 1` is cast to uint32 in by the `>>> 1`, which could make
     // the value wrap around if `item._index` were larger than `2**32`.
@@ -103,7 +103,7 @@ function shiftUp<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   }
 }
 
-function shiftDown<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
+function siftDown<T>(array: Item<T>[], item: Item<T>, cmp: Cmp<T>): void {
   for (;;) {
     const left = item._index * 2 + 1;
     if (left >= array.length) {
