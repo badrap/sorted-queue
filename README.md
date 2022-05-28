@@ -34,6 +34,9 @@ queue.pop().value;    // 1
 queue.pop();          // undefined
 queue.peek();         // undefined
 
+// `empty()` returns `true` when the queue is empty, otherwise - `false`
+queue.empty();          // true
+
 // Items returned by push() can also be removed using `item.pop()`.
 const first = queue.push(0);
 const middle = queue.push(1);

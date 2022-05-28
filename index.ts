@@ -28,6 +28,10 @@ export class SortedQueue<T> {
     item.pop();
     return item;
   }
+
+  empty(): boolean {
+    return this._array.length === 0;
+  }
 }
 
 class Item<T> {
