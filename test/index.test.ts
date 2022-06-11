@@ -74,6 +74,26 @@ describe("SortedQueue", () => {
     });
   });
 
+  describe("#empty()", () => {
+    it("should return true for a newly created queue", () => {
+      const q = new SortedQueue();
+      expect(q.empty()).to.be.true;
+    });
+
+    it("should return false for a non-empty queue", () => {
+      const q = new SortedQueue();
+      q.push(1);
+      expect(q.empty()).to.be.false;
+    });
+
+    it("should return true for a queue that has just been emptied", () => {
+      const q = new SortedQueue();
+      q.push(1);
+      q.pop();
+      expect(q.empty()).to.be.true;
+    });
+  });
+
   it("should preserve order", () => {
     const original = [];
     for (let i = 0; i < 1024; i++) {
