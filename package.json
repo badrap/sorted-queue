@@ -1,6 +1,6 @@
 {
   "name": "sorted-queue",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A sorted queue, based on an array-backed binary heap",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
