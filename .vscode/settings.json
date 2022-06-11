@@ -1,7 +1,11 @@
 {
-  "files.exclude": {
-    ".rts2_cache_*": true,
-    "dist/": true,
-    "node_modules/": true
-  }
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.format.enable": true,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "explorer.excludeGitIgnore": true,
+  "[javascript][typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
 }
