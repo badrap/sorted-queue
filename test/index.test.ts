@@ -1,5 +1,5 @@
 import { SortedQueue, SortedQueueItem } from "../index";
-import { expect } from "chai";
+import { describe, it, expect } from "vitest";
 
 function collect<T>(queue: SortedQueue<T>): T[] {
   const array: T[] = [];

@@ -9,21 +9,18 @@
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
   "scripts": {
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "build": "rm -rf dist/* && microbundle",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.1",
-    "@types/mocha": "^9.1.1",
-    "chai": "^4.3.6",
-    "eslint": "^8.17.0",
-    "microbundle": "^0.15.0",
-    "mocha": "^10.0.0",
-    "prettier": "^2.6.2",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.3"
+    "eslint": "^8.25.0",
+    "microbundle": "^0.15.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4",
+    "vitest": "^0.24.3"
   },
   "keywords": [
     "typescript",
