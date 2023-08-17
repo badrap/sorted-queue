@@ -3,7 +3,7 @@
 A sorted queue, based on an array-backed binary heap.
 
 > [!NOTE]
-> Currently, we're not taking in any new feature requests or suggestions. Our team is focused on essential features for our product development. Please use the issue tracker for bug reports and security concerns, which we highly value and welcome. Thank you for your understanding ❤️
+> While this package is still evolving, we're currently not accepting any new feature requests or suggestions. Please use the issue tracker for bug reports and security concerns, which we highly value and welcome. Thank you for your understanding ❤️
 
 ## Installation
 
