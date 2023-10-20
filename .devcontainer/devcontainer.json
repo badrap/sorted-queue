@@ -11,5 +11,12 @@
     "type=volume,target=/home/node/workspace/node_modules",
     "type=volume,target=/home/node/workspace/dist"
   ],
-  "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+      ]
+    }
+  }
 }
