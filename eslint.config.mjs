@@ -28,14 +28,7 @@ export default tseslint.config(
       "no-return-assign": "error",
       "no-unused-expressions": "error",
       "@typescript-eslint/prefer-for-of": "off",
-      "@typescript-eslint/no-dynamic-delete": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-confusing-void-expression": "off",
-      "@typescript-eslint/consistent-type-definitions": "off",
-      "@typescript-eslint/consistent-indexed-object-style": "off",
-      "@typescript-eslint/prefer-return-this-type": "off",
       "@typescript-eslint/unbound-method": "off",
-      "@typescript-eslint/unified-signatures": "off",
       "@typescript-eslint/restrict-template-expressions": [
         "error",
         {
