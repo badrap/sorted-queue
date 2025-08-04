@@ -1,30 +1,59 @@
 {
-  "name": "sorted-queue",
+  "name": "@badrap/sorted-queue",
   "version": "0.3.5",
+  "type": "commonjs",
   "description": "A sorted queue, based on an array-backed binary heap",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "source": "index.ts",
-  "repository": "badrap/sorted-queue",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/mjs/index.mjs",
+  "exports": {
+    "bun": "./src/index.ts",
+    "node": {
+      "module": "./dist/node-mjs/index.mjs",
+      "import": "./dist/node-cjs/index.esm.mjs",
+      "require": "./dist/node-cjs/index.js"
+    },
+    "default": "./dist/mjs/index.mjs"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badrap/sorted-queue.git"
+  },
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
+  "publishConfig": {
+    "provenance": true
+  },
+  "engines": {
+    "node": ">= 22"
+  },
   "scripts": {
-    "test": "vitest --run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit --skipLibCheck",
-    "build": "rm -rf dist/* && microbundle",
-    "prepublishOnly": "npm run build"
+    "lint": "eslint --max-warnings 0 .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "rm -rf dist/* && npm run build:cjs && npm run build:mjs && npm run build:node-mjs && npm run build:node-cjs",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json --outDir ./dist/cjs",
+    "build:node-cjs": "tsc -p ./tsconfig.cjs.json --target es2022 --outDir ./dist/node-cjs",
+    "build:mjs": "tsc -p ./tsconfig.esm.json --outDir ./dist/mjs && mv ./dist/mjs/index.js ./dist/mjs/index.mjs && mv ./dist/mjs/index.d.ts ./dist/mjs/index.d.mts",
+    "build:node-mjs": "tsc -p ./tsconfig.esm.json --target es2022 --outDir ./dist/node-mjs && mv ./dist/node-mjs/index.js ./dist/node-mjs/index.mjs && mv ./dist/node-mjs/index.d.ts ./dist/node-mjs/index.d.mts",
+    "changeset": "changeset",
+    "bump": "changeset version",
+    "release": "npm run build && changeset publish"
   },
   "devDependencies": {
-    "eslint": "^8.51.0",
-    "microbundle": "^0.15.1",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.6"
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.29.5",
+    "@eslint/js": "^9.32.0",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
+    "vitest": "^3.2.4"
   },
-  "keywords": [
-    "typescript",
-    "sorted-queue",
-    "priority-queue"
+  "files": [
+    "src",
+    "dist"
   ]
 }

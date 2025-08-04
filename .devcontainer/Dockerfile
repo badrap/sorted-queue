@@ -1,4 +1,8 @@
-FROM node:18-alpine
-RUN apk add --no-cache git openssh ripgrep
+FROM node:22-alpine
+RUN apk add --no-cache \
+  git \
+  openssh \
+  ripgrep
+RUN mkdir -p /workspace && chown node:node /workspace
 USER node
-RUN mkdir -p /home/node/workspace/node_modules /home/node/workspace/dist
+RUN mkdir -p /workspace/node_modules /workspace/dist

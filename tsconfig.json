@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "outDir": "./dist",
+    "target": "es2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
-    "declaration": true
+    "noImplicitReturns": true,
+    "declaration": true,
+    "isolatedModules": true,
+    "outDir": "./dist/main",
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["**/*.ts"]
+  "include": ["mod.ts", "src/**/*", "tests/**/*"]
 }

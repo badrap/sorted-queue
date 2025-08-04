@@ -1,22 +1,19 @@
 {
-  "name": "Devcontainer",
+  "name": "@badrap/sorted-queue",
   "build": {
     "dockerfile": "Dockerfile"
   },
   "postCreateCommand": "npm ci",
   "remoteUser": "node",
-  "workspaceFolder": "/home/node/workspace",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/node/workspace,type=bind",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace",
   "mounts": [
-    "type=volume,target=/home/node/workspace/node_modules",
-    "type=volume,target=/home/node/workspace/dist"
+    "type=volume,target=/workspace/node_modules",
+    "type=volume,target=/workspace/dist"
   ],
   "customizations": {
     "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-      ]
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
     }
   }
 }

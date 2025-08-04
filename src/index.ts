@@ -69,17 +69,17 @@ declare class _SortedQueueItem<T> {
   readonly value: T;
   pop(): boolean;
 }
-export const SortedQueueItem = (Item as unknown) as typeof _SortedQueueItem;
+export const SortedQueueItem = Item as unknown as typeof _SortedQueueItem;
 export type SortedQueueItem<T> = _SortedQueueItem<T>;
 
-function defaultCmp(a: unknown, b: unknown): number {
+function defaultCmp<T>(a: T, b: T): number {
   if (a === b) {
     return 0;
   }
   if (a !== a) {
     return b !== b ? 0 : -1;
   }
-  return (b as any) < (a as any) || b !== b ? 1 : -1;
+  return b < a || b !== b ? 1 : -1;
 }
 
 function swap<T>(array: Item<T>[], left: Item<T>, right: Item<T>): void {

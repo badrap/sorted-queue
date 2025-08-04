@@ -1,4 +1,4 @@
-import { SortedQueue, SortedQueueItem } from "../index";
+import { SortedQueue, SortedQueueItem } from "../src/index";
 import { describe, it, expect } from "vitest";
 
 function collect<T>(queue: SortedQueue<T>): T[] {
@@ -53,7 +53,7 @@ describe("SortedQueue", () => {
 
     it("should return undefined when the queue is empty", () => {
       const q = new SortedQueue();
-      expect(q.pop()).to.be.undefined;
+      expect(q.pop()).toBeUndefined();
     });
   });
 
@@ -70,27 +70,27 @@ describe("SortedQueue", () => {
 
     it("should return undefined when the queue is empty", () => {
       const q = new SortedQueue();
-      expect(q.pop()).to.be.undefined;
+      expect(q.pop()).toBeUndefined();
     });
   });
 
   describe("#empty()", () => {
     it("should return true for a newly created queue", () => {
       const q = new SortedQueue();
-      expect(q.empty()).to.be.true;
+      expect(q.empty()).toBe(true);
     });
 
     it("should return false for a non-empty queue", () => {
       const q = new SortedQueue();
       q.push(1);
-      expect(q.empty()).to.be.false;
+      expect(q.empty()).toBe(false);
     });
 
     it("should return true for a queue that has just been emptied", () => {
       const q = new SortedQueue();
       q.push(1);
       q.pop();
-      expect(q.empty()).to.be.true;
+      expect(q.empty()).toBe(true);
     });
   });
 
@@ -117,14 +117,14 @@ describe("SortedQueueItem", () => {
     it("should return true when the item existed in the queue", () => {
       const q = new SortedQueue();
       const i = q.push(1);
-      expect(i.pop()).to.be.true;
+      expect(i.pop()).toBe(true);
     });
 
     it("should return false when the item did not exist in the queue", () => {
       const q = new SortedQueue();
       const i = q.push(1);
       i.pop();
-      expect(i.pop()).to.be.false;
+      expect(i.pop()).toBe(false);
     });
 
     it("should remove items from the front of the queue and still keep the queue ordered", () => {
@@ -152,7 +152,7 @@ describe("SortedQueueItem", () => {
       // from the end of the backing array needs to be sifted up.
       const queue = new SortedQueue();
       const values = [0, 1000, 1, 1001, 1002, 2, 3, 1003, 1004, 1005, 1006, 4];
-      const items = values.map(v => queue.push(v));
+      const items = values.map((v) => queue.push(v));
       items[3].pop();
       values.splice(3, 1);
       expect(collect(queue)).to.deep.equal(values.sort((a, b) => a - b));
@@ -161,7 +161,7 @@ describe("SortedQueueItem", () => {
     it("should keep ordering when the replacement needs to be sifted down", () => {
       const queue = new SortedQueue();
       const values = [0, 1000, 1, 1001, 1002, 2, 3, 1003, 1004, 1005, 1006];
-      const items = values.map(v => queue.push(v));
+      const items = values.map((v) => queue.push(v));
       items[2].pop();
       values.splice(2, 1);
       expect(collect(queue)).to.deep.equal(values.sort((a, b) => a - b));
