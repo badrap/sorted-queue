@@ -1,5 +1,11 @@
 # @badrap/sorted-queue
 
+## 0.4.2
+
+### Patch Changes
+
+- [`cc2e3df`](https://github.com/badrap/sorted-queue/commit/cc2e3df29699dd08b7a5bdd6f4a5dd5603e634c5) Thanks [@jviide](https://github.com/jviide)! - Separate versioning and publishing jobs
+
 ## 0.4.1
 
 ### Patch Changes
