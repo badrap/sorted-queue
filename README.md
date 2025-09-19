@@ -59,7 +59,7 @@ queue.pop(); // undefined
 // For more complex sortings you can defined a custom comparison function
 // (with the same signature as the comparison function Array#sort takes).
 const custom = new SortedQueue<{ name: string }>((a, b) =>
-  a.name.localeCompare(b.name)
+  a.name.localeCompare(b.name),
 );
 custom.push({ name: "Mallory" });
 custom.push({ name: "Alice" });
