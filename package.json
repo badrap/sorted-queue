@@ -1,6 +1,6 @@
 {
   "name": "sorted-queue",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "type": "commonjs",
   "description": "A sorted queue, based on an array-backed binary heap",
   "main": "./dist/cjs/index.js",
