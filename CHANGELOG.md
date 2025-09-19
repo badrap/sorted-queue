@@ -1,5 +1,11 @@
 # @badrap/sorted-queue
 
+## 0.4.3
+
+### Patch Changes
+
+- [`0c233b2`](https://github.com/badrap/sorted-queue/commit/0c233b23ac30dcbb3ffa60cf1a080ec003d4e03c) Thanks [@jviide](https://github.com/jviide)! - Fix publishing workflow conditions
+
 ## 0.4.2
 
 ### Patch Changes
