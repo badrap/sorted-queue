@@ -36,7 +36,8 @@
     "build:node-cjs": "tsc -p ./tsconfig.cjs.json --target es2022 --outDir ./dist/node-cjs",
     "build:mjs": "tsc -p ./tsconfig.esm.json --outDir ./dist/mjs && mv ./dist/mjs/index.js ./dist/mjs/index.mjs && mv ./dist/mjs/index.d.ts ./dist/mjs/index.d.mts",
     "build:node-mjs": "tsc -p ./tsconfig.esm.json --target es2022 --outDir ./dist/node-mjs && mv ./dist/node-mjs/index.js ./dist/node-mjs/index.mjs && mv ./dist/node-mjs/index.d.ts ./dist/node-mjs/index.d.mts",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "tag": "node --run build && changeset tag"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
