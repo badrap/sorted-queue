@@ -10,7 +10,7 @@ on:
 permissions: {}
 
 jobs:
-  build:
+  ci-check:
     runs-on: ubuntu-latest
     permissions:
       contents: read
