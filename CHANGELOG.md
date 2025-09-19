@@ -1,5 +1,11 @@
 # @badrap/sorted-queue
 
+## 0.4.4
+
+### Patch Changes
+
+- [`03efa9b`](https://github.com/badrap/sorted-queue/commit/03efa9b0259db570d30b63df2c7b4b939465b3b7) Thanks [@jviide](https://github.com/jviide)! - Tag versions only when build succeeds
+
 ## 0.4.3
 
 ### Patch Changes
