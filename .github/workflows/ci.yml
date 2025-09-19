@@ -1,6 +1,10 @@
 name: CI
 
-on: ["push", "pull_request"]
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
 
 # Disable all permissions by default, requiring explicit permission definitions for all jobs.
 permissions: {}
