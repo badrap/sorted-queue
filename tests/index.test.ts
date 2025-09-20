@@ -1,5 +1,6 @@
-import { SortedQueue, SortedQueueItem } from "../src/index";
-import { describe, it, expect } from "vitest";
+import assert from "node:assert";
+import { describe, it } from "node:test";
+import { SortedQueue, SortedQueueItem } from "../src/index.ts";
 
 function collect<T>(queue: SortedQueue<T>): T[] {
   const array: T[] = [];
@@ -20,9 +21,9 @@ describe("SortedQueue", () => {
       q.push(-1);
       q.push(1);
       q.push(0);
-      expect(q.pop()).to.have.property("value", 1);
-      expect(q.pop()).to.have.property("value", 0);
-      expect(q.pop()).to.have.property("value", -1);
+      assert.strictEqual(q.pop()?.value, 1);
+      assert.strictEqual(q.pop()?.value, 0);
+      assert.strictEqual(q.pop()?.value, -1);
     });
   });
 
@@ -30,13 +31,13 @@ describe("SortedQueue", () => {
     it("should return an item with property 'value' set to the given value", () => {
       const q = new SortedQueue();
       const i = q.push(1);
-      expect(i).to.have.property("value", 1);
+      assert.strictEqual(i.value, 1);
     });
 
     it("should return a SortedQueueItem instance", () => {
       const q = new SortedQueue();
       const i = q.push(1);
-      expect(i).to.be.instanceof(SortedQueueItem);
+      assert(i instanceof SortedQueueItem);
     });
   });
 
@@ -46,14 +47,14 @@ describe("SortedQueue", () => {
       q.push(1);
       q.push(0);
       q.push(2);
-      expect(q.pop()).to.have.property("value", 0);
-      expect(q.pop()).to.have.property("value", 1);
-      expect(q.pop()).to.have.property("value", 2);
+      assert.strictEqual(q.pop()?.value, 0);
+      assert.strictEqual(q.pop()?.value, 1);
+      assert.strictEqual(q.pop()?.value, 2);
     });
 
     it("should return undefined when the queue is empty", () => {
       const q = new SortedQueue();
-      expect(q.pop()).toBeUndefined();
+      assert.strictEqual(q.pop(), undefined);
     });
   });
 
@@ -62,35 +63,35 @@ describe("SortedQueue", () => {
       const q = new SortedQueue();
       q.push(1);
       q.push(0);
-      expect(q.peek()).to.have.property("value", 0);
-      expect(q.peek()).to.have.property("value", 0);
+      assert.strictEqual(q.peek()?.value, 0);
+      assert.strictEqual(q.peek()?.value, 0);
       q.push(-1);
-      expect(q.peek()).to.have.property("value", -1);
+      assert.strictEqual(q.peek()?.value, -1);
     });
 
     it("should return undefined when the queue is empty", () => {
       const q = new SortedQueue();
-      expect(q.pop()).toBeUndefined();
+      assert.strictEqual(q.pop(), undefined);
     });
   });
 
   describe("#empty()", () => {
     it("should return true for a newly created queue", () => {
       const q = new SortedQueue();
-      expect(q.empty()).toBe(true);
+      assert.strictEqual(q.empty(), true);
     });
 
     it("should return false for a non-empty queue", () => {
       const q = new SortedQueue();
       q.push(1);
-      expect(q.empty()).toBe(false);
+      assert.strictEqual(q.empty(), false);
     });
 
     it("should return true for a queue that has just been emptied", () => {
       const q = new SortedQueue();
       q.push(1);
       q.pop();
-      expect(q.empty()).toBe(true);
+      assert.strictEqual(q.empty(), true);
     });
   });
 
@@ -108,7 +109,7 @@ describe("SortedQueue", () => {
       copy.splice(index, 1);
     }
 
-    expect(collect(queue)).to.deep.equal(original);
+    assert.deepStrictEqual(collect(queue), original);
   });
 });
 
@@ -117,14 +118,14 @@ describe("SortedQueueItem", () => {
     it("should return true when the item existed in the queue", () => {
       const q = new SortedQueue();
       const i = q.push(1);
-      expect(i.pop()).toBe(true);
+      assert.strictEqual(i.pop(), true);
     });
 
     it("should return false when the item did not exist in the queue", () => {
       const q = new SortedQueue();
       const i = q.push(1);
       i.pop();
-      expect(i.pop()).toBe(false);
+      assert.strictEqual(i.pop(), false);
     });
 
     it("should remove items from the front of the queue and still keep the queue ordered", () => {
@@ -133,8 +134,8 @@ describe("SortedQueueItem", () => {
       const i = q.push(0);
       q.push(2);
       i.pop();
-      expect(q.pop()).to.have.property("value", 1);
-      expect(q.pop()).to.have.property("value", 2);
+      assert.strictEqual(q.pop()?.value, 1);
+      assert.strictEqual(q.pop()?.value, 2);
     });
 
     it("should remove items from the end of the queue and still keep the queue ordered", () => {
@@ -143,8 +144,8 @@ describe("SortedQueueItem", () => {
       q.push(0);
       const i = q.push(2);
       i.pop();
-      expect(q.pop()).to.have.property("value", 0);
-      expect(q.pop()).to.have.property("value", 1);
+      assert.strictEqual(q.pop()?.value, 0);
+      assert.strictEqual(q.pop()?.value, 1);
     });
 
     it("should keep ordering when the replacement item needs to be sifted up", () => {
@@ -155,7 +156,10 @@ describe("SortedQueueItem", () => {
       const items = values.map((v) => queue.push(v));
       items[3].pop();
       values.splice(3, 1);
-      expect(collect(queue)).to.deep.equal(values.sort((a, b) => a - b));
+      assert.deepStrictEqual(
+        collect(queue),
+        values.sort((a, b) => a - b),
+      );
     });
 
     it("should keep ordering when the replacement needs to be sifted down", () => {
@@ -164,7 +168,10 @@ describe("SortedQueueItem", () => {
       const items = values.map((v) => queue.push(v));
       items[2].pop();
       values.splice(2, 1);
-      expect(collect(queue)).to.deep.equal(values.sort((a, b) => a - b));
+      assert.deepStrictEqual(
+        collect(queue),
+        values.sort((a, b) => a - b),
+      );
     });
   });
 });

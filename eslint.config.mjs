@@ -50,6 +50,18 @@ export default defineConfig(
         },
       ],
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/no-floating-promises": [
+        "error",
+        {
+          allowForKnownSafeCalls: [
+            {
+              from: "package",
+              name: ["describe", "it"],
+              package: "node:test",
+            },
+          ],
+        },
+      ],
     },
   },
 );

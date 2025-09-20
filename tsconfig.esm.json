@@ -4,6 +4,7 @@
     "target": "ES2015",
     "module": "ES2015",
     "moduleResolution": "Node",
+    "types": [],
     "noEmit": false,
     "allowImportingTsExtensions": false
   },
